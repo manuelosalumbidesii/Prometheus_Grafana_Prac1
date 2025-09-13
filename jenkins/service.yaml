@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-service
+  namespace: cicd
+  labels:
+    app: jenkins
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      nodePort: 32001   # Jenkins Web UI
+    - name: agent
+      port: 50000
+      targetPort: 50000
+  selector:
+    app: jenkins
