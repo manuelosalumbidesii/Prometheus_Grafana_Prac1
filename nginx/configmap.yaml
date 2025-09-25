@@ -3,17 +3,22 @@ kind: ConfigMap
 metadata:
   name: nginx-config
 data:
-  stub_status.conf: |
+  default.conf: |
     server {
-      listen 80;
+        listen 80;
 
-      location / {
-        root /usr/share/nginx/html;
-        index index.html;
-      }
+        # Serve HTML
+        location / {
+            root /usr/share/nginx/html;
+            index index.html;
+        }
 
-      location /stub_status {
-        stub_status;
-        allow all;
-      }
+        # Stub status for Prometheus
+        location /stub_status {
+            stub_status;
+            access_log off;
+            allow 127.0.0.1;        # localhost
+            allow 10.244.0.0/16;    # Minikube pod network
+            deny all;
+        }
     }

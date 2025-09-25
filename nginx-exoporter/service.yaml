@@ -9,3 +9,4 @@ spec:
   - protocol: TCP
     port: 9113
     targetPort: 9113
+  type: ClusterIP
